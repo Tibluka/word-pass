@@ -1,1 +1,53 @@
-<p>game works!</p>
+<div class="page-game">
+    <div class="content">
+        <header>
+            <h4 class="logo">Word-Pass</h4>
+            <ul>
+                <li>Início</li>
+                <li>Sobre</li>
+                <li>Funcionalidades</li>
+            </ul>
+        </header>
+        <main>
+            <div class="scoreboard">
+                <ul>
+                    <li>
+                        <h1>Fase atual</h1>
+                        <input [(ngModel)]="gamePhase" class="gamePhase">
+                    </li>
+                    <li>
+                        <h1>Pontos nesta rodada</h1>
+                        <img src="" alt="Img pontos nesta rodada">
+                    </li>
+                    <li>
+                        <h1>Total de pontos</h1>
+                        <div class="teamScore">
+                            <div class="player1">
+                                <h1>{{player1TeamA}}</h1>
+                            </div>
+                            <div class="player2">
+                                <h1>{{player2TeamA}}</h1>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container">
+                <a *ngIf="gameOff" (click)="isGameOn()">
+                    <h1>{{startMessage}}</h1>
+                </a>
+                <a *ngIf="gameOn">
+                    <h1>{{actualPassword}}</h1>
+                </a>
+            </div>
+
+            <div class="commandLine">
+                <a (click)="passIsWrong()">Errou</a>
+                <a (click)="passIsRight()">Acertou</a>
+                <a (click)="skip()">Pulou</a>
+                <a (click)="getPass()">Palavra na Tela</a>
+            </div>
+        </main>
+    </div>
+</div>

@@ -1,0 +1,210 @@
+.page-home .content {
+    margin: 0 10%;
+}
+
+.page-home .content header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.page-home .content header ul {
+    display: flex;
+    list-style-type: none;
+}
+
+.page-home .content header ul li {
+    width: 100px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.page-home .content main .grid {
+    max-height: 450px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.page-home .content main .grid .gridImage {
+    display: flex;
+}
+
+.page-home .content main .grid .gridImage img {
+    display: block;
+    width: 500px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: 5%;
+}
+
+.page-home .content main .grid .gridBrief {
+    min-width: 300px;
+    line-height: 35px;
+}
+
+.page-home .content main .grid .gridBrief .btn {
+    display: flex;
+    margin-top: 40px;
+}
+
+.page-home .content main .grid .gridBrief .btn a {
+    display: flex;
+    background-color: var(--primary-color);
+    height: 42px;
+    width: 180px;
+    border-radius: 25px;
+    border: none;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    margin-right: 8px;
+}
+
+.page-home .content main .grid .gridBrief .btn a:hover {
+    transition: 300ms;
+    height: 46px;
+    width: 200px;
+    font-size: 15px;
+    background-color: var(--primaryHover-color);
+}
+
+.page-home .content main .gridRules {
+    display: grid;
+    margin-top: 50px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: justify;
+}
+
+@media (max-width: 1095px) {
+    .page-home .content main .grid .gridImage img {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 900px) {
+    .page-home .content main .gridRules {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 750px) {
+    .page-home .content main .grid .gridImage {
+        visibility: hidden;
+    }
+    .page-home .content main .grid {
+        text-align: center;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: -50px;
+        min-height: 400px;
+    }
+
+    .page-home .content main .grid .gridBrief .btn {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 550px) {
+    .page-home .content header .logo {
+        display: none;
+    }
+
+    .page-home .content header {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .page-home .content header ul {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .page-home .content header ul li {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+    }
+
+    .page-home .content main .grid .gridImage {
+        visibility: hidden;
+    }
+    .page-home .content main .grid {
+        text-align: center;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: -50px;
+        min-height: 400px;
+    }
+
+    .page-home .content main .grid .gridBrief .btn {
+        align-items: center;
+    }
+}
+
+@media (max-width: 380px) {
+    
+    .page-home .content main .footer h1{
+        margin-top: 50px;
+    }
+
+    .page-home .content main .grid .gridBrief .btn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-home .content header {
+        height: fit-content;
+        margin: 0;
+        display: flex;
+    }
+
+    .page-home .content header ul {
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        justify-content: center;
+    }
+
+    .page-home .content header ul li {
+        margin: 3px auto;
+        background-color: var(--primary-color);
+        height: 42px;
+        width: 180px;
+        border-radius: 25px;
+        border: none;
+        font-size: 15px;
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+    }
+
+    .page-home .content header ul li:hover {
+        background-color: var(--primaryHover-color);
+        transition: 300ms;
+        height: 46px;
+        width: 200px;
+        font-size: 15px;
+    }
+    .page-home .content main .grid {
+        height: 480px;
+    }
+}

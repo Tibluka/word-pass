@@ -1,0 +1,121 @@
+.page-game .content {
+    margin: 0 10%;
+}
+
+.page-game .content header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.page-game .content header ul {
+    display: flex;
+    list-style-type: none;
+}
+
+.page-game .content header ul li {
+    width: 100px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.page-game .content main .scoreboard ul {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    list-style-type: none;
+    line-height: 12px;
+}
+
+.page-game .content main .scoreboard ul h1 {
+    text-align: center;
+}
+
+.page-game .content main .scoreboard ul li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-game .content main .scoreboard .teamScore {
+    display: flex;
+    width: 15%;
+}
+
+.page-game .content main .scoreboard .teamScore .player1 {
+    margin: 5px 5px;
+    width: 50px;
+    border-radius: 12px;
+    border: none;
+}
+
+.page-game .content main .scoreboard .teamScore .player2 {
+    margin: 5px 5px;
+    width: 50px;
+    border-radius: 12px;
+    border: none;
+}
+
+.page-game .content main .container {
+    display: flex;
+    justify-content: center;
+}
+
+.page-game .content main .container a {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 80%;
+    background-color: white;
+    border-radius: 50px;
+    color: black;
+    font-size: 40px;
+}
+
+.page-game .content main .container .password {
+    font-size: 80px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+}
+
+.page-game .content main .commandLine a{
+    display: flex;
+    background-color: var(--primary-color);
+    height: 42px;
+    width: 180px;
+    border-radius: 25px;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    margin-right: 5px;
+}
+
+.page-game .content main .commandLine a:hover{
+    background-color: var(--primaryHover-color);
+}
+
+.page-game .content main .commandLine{
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-game .content main .scoreboard .gamePhase{
+    height: 30px;
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+}
