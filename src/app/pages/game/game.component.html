@@ -13,7 +13,9 @@
                 <ul>
                     <li>
                         <h1>Fase atual</h1>
-                        <input [(ngModel)]="gamePhase" class="gamePhase">
+                        <h2>
+                            Eliminatórias
+                        </h2>
                     </li>
                     <li>
                         <h1>Pontos nesta rodada</h1>
@@ -23,10 +25,10 @@
                         <h1>Total de pontos</h1>
                         <div class="teamScore">
                             <div class="player1">
-                                <h1>{{player1TeamA}}</h1>
+                                <h1 >{{this.player1TeamA}}</h1>
                             </div>
                             <div class="player2">
-                                <h1>{{player2TeamA}}</h1>
+                                <h1>{{this.player2TeamA}}</h1>
                             </div>
                         </div>
                     </li>
@@ -34,18 +36,18 @@
             </div>
 
             <div class="container">
-                <a *ngIf="gameOff" (click)="isGameOn()">
-                    <h1>{{startMessage}}</h1>
+                    <a *ngIf="gameOff" (click)="isGameOn()">
+                    <h1>Teste</h1>
                 </a>
-                <a *ngIf="gameOn">
-                    <h1>{{actualPassword}}</h1>
+                <a>
+                    <h1 *ngIf="gameOn">{{this.actualPassword}}</h1>
                 </a>
             </div>
 
             <div class="commandLine">
                 <a (click)="passIsWrong()">Errou</a>
                 <a (click)="passIsRight()">Acertou</a>
-                <a (click)="skip()">Pulou</a>
+                <a>Pulou</a>
                 <a (click)="getPass()">Palavra na Tela</a>
             </div>
         </main>
