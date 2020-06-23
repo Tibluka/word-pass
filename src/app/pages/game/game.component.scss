@@ -61,32 +61,27 @@
 }
 
 .page-game .content main .container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+    align-items: center;
 }
 
 .page-game .content main .container a {
     margin: 20px;
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     height: 500px;
-    width: 80%;
+    width: 95%;
     background-color: white;
     border-radius: 50px;
     color: black;
     font-size: 40px;
 }
 
-.page-game .content main .container .password {
-    font-size: 80px;
-    color: black;
-    font-weight: bold;
-    text-align: center;
-    border: none;
-}
-
-.page-game .content main .commandLine a{
+button{
+    color: white;
     display: flex;
     background-color: var(--primary-color);
     height: 42px;
@@ -99,8 +94,21 @@
     margin-right: 5px;
 }
 
-.page-game .content main .commandLine a:hover{
+.page-game .content main .container .password {
+    font-size: 80px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+}
+
+button:hover{
+    transition: 300ms;
     background-color: var(--primaryHover-color);
+}
+
+button:disabled{
+    background-color: var(--primaryDisabled-color);
 }
 
 .page-game .content main .commandLine{
