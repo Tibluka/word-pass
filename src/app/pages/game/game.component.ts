@@ -13,6 +13,7 @@ interface rules {
 })
 export class GameComponent implements OnInit {
 
+  public stage = 1
   passwords = ["barraca", "errado", "horrível", "feira", "pera", "zero", "bravo",
     "grande", "prédio", "aviso", "gasolina", "risada", "alvo", "final", "polvo", "alho",
     "ilha", "talheres", "barriga", "erro", "irritado", "armário", "cobertor", "porta",
