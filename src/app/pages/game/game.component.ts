@@ -1,13 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { timingSafeEqual } from 'crypto';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
+interface rules {
+  stage: number,
+  qty: number,
+  words: Array<any>
+}
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
-export class GameComponent implements OnInit {
 
-  passwords = ["barraca", "errado", "horrível", "feira", "pera", "zero", "bravo",
+export class GameComponent implements OnInit {
+  public stage = 1
+  private passwords = ["barraca", "errado", "horrível", "feira", "pera", "zero", "bravo",
     "grande", "prédio", "aviso", "gasolina", "risada", "alvo", "final", "polvo", "alho",
     "ilha", "talheres", "barriga", "erro", "irritado", "armário", "cobertor", "porta",
     "brinco", "gravata", "prego", "bisavô", "guloso", "roseira", "anel", "fralda",
@@ -75,110 +83,131 @@ export class GameComponent implements OnInit {
     "chapéu", "chupeta", "mochila", "dinheiro", "linha", "unha", "atlas", "claro", "global",
     "computador", "nuvem", "tromba", "bloco", "deglutir", "planta", "domingo", "lindo", "volante",
     "biombo", "homem", "patim", "bloqueio", "duplo", "plasma", "coelho"]
-  randomWord = ""
 
-  gamePhase = ""
-  actualPassword = "Senha"
-  indexOf = 0
 
-  teamA = {
-    player1: "",
-    player2: "",
-    player1Points: 0,
-    player2Points: 0,
-    player1Chances: 0,
-    player2Chances: 0,
+  // RULES
+  private indexWord = 0;
+ /*
+ ANTES
+ public rules = {,
+      qty: 10,
+      words: []
   }
+  */
+  public rules:Array<rules> = [
+    {
+      stage: 1,
+      qty: 10,
+      words: []
+    },
+    {
+      stage: 2,
+      qty: 10,
+      words: []
+    },
+    {
+      stage: 3,
+      qty: 5,
+      words: []
+    }
+  ]
 
-  startMessage = "Pronto para começar?"
-  gameOn = false
-  gameOff = true
-  teamATotalPoints = ""
-  teamBTotalPoints = ""
-  player1TeamA = 0
-  player2TeamA = 0
-  round1Passwords = ["", "", "", "", "", "", "", "", "", ""]
-  round2Passwords = ["", "", "", "", "", "", "", "", ""]
-  round3Passwords = ["", "", "", "", "", "", "", ""]
-  round4Passwords = ["", "", "", "", "", "", ""]
-  round5Passwords = ["", "", "", "", "", ""]
-  finalRoundPasswords = ["", "", "", "", ""]
+  public gameRule:rules;
+
+
+  public block = false;
+  public word = 'Pronto para começar?'
 
   constructor() {
-
   }
 
-  isGameOn() {
-    this.gameOn = !this.gameOn
-    this.gameOff = !this.gameOff
-    this.actualPassword = "Prepare-se!"
+  ngOnInit(): void {
   }
 
-  gameIsOn() {
-    this.gamePhase = "Eliminatórias"
-  }
-
-  start() {
-
-  }
-
+  // FUNCTIONS
 
   getPass() {
-    if (this.gameOn === false && this.isGameOn) {
-      alert("Clique em 'Pronto para começar'!")
-    } else {
-      if (this.gamePhase === 'Eliminatórias') {
-        this.round1Passwords = []
-        for (let r1 = 0; r1 < 10; r1++) {
-          this.randomWord = this.passwords[Math.floor(Math.random() * this.passwords.length)]
-          this.round1Passwords.push(this.randomWord)
-          this.actualPassword = this.randomWord
-        }
+    this.gameRule = this.rules.find(rule => rule.stage === this.stage)
+    this.block = false;
+    for (let index = 0; index < this.gameRule.qty; index++) {
+      const i = Math.floor((Math.random() * this.passwords.length - 1));
+      const word = {
+        word: this.passwords[i],
+        status: ''
       }
+      this.gameRule.words.push(word)
+      this.passwords.splice(i, 1)
     }
+    this.word = this.gameRule.words[0].word
+    console.log(this.gameRule)
+  }
+
+  skip() {
+    this.gameRule.words[this.indexWord].status = ''
+    this.skipWord()
   }
 
   passIsRight() {
-    if (this.indexOf < this.round1Passwords.length - 1) {
-      this.indexOf++
-    } else {
-      this.indexOf = 0
+    this.gameRule.words[this.indexWord].status = 'done'
+    this.skipWord()
+  }
+
+  private skipWord() {
+    this.indexWord++;
+    if (this.indexWord >= this.gameRule.qty) {
+      this.indexWord = 0;
     }
-    this.actualPassword = this.round1Passwords[this.indexOf]
-    if(this.player1TeamA <= 10 || this.player1TeamA >= 0){
-      this.player1TeamA += 1
-    }else if(this.player2TeamA <= 10 || this.player1TeamA >= 0){
-      this.player2TeamA += 1
-    }else{
-      alert('Próxima rodada')
+    if (this.gameRule.words[this.indexWord].status !== '') {
+      const index = this.gameRule.words.findIndex(word => word.status === '')
+      if (index !== -1) {
+        this.skipWord();
+      } else {
+        this.stage++
+        this.block = true;
+        this.word = `Iniciar fase ${this.stage}`;
+      }
+    } else {
+      this.word = this.gameRule.words[this.indexWord].word
+      console.log(this.gameRule)
     }
   }
 
   passIsWrong() {
-    if (this.indexOf < this.round1Passwords.length - 1) {
-      this.indexOf++
-    } else {
-      this.indexOf = 0
-    }
-    this.actualPassword = this.round1Passwords[this.indexOf]
-    if(this.player1TeamA <= 10 || this.player1TeamA >= 0){
-      this.player1TeamA -= 1
-    }else if(this.player2TeamA <= 10 || this.player1TeamA >= 0){
-      this.player2TeamA -= 1
-    }else{
-      alert('Fim da rodada')
-    }
   }
 
-
-  skip() {
-
+  public filho = {
+    name: ''
+  }
+  public mae = {
+    name: 'henrique'
   }
 
+  nasceuFilho() {
+    this.filho = this.mae;
+    console.log('nasceuFilho Nome do Filho', this.filho)
+    console.log('nasceuFilho Nome do mae', this.mae)
+  }
 
-  ngOnInit(): void {
-    this.gameIsOn()
-    console.log()
+  testeOne() {
+    this.mae.name = 'lucas'
+    console.log('testeOne Nome da Mae',this.mae)
+    console.log('testeOne Nome do filho',this.filho)
+  }
+
+  teste(lucas) {
+    const prop = 'qty'
+    console.log(this.gameRule[lucas])
+    if(lucas === 'qty') {
+      this.gameRule[prop]
+      console.log(this.gameRule.qty)
+    }
+    if(lucas === 'stage') {
+      console.log(this.gameRule.stage)
+    }
+    if(lucas === 'words') {
+      console.log(this.gameRule.words)
+    }
+
   }
 
 }
