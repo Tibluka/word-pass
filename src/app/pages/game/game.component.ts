@@ -1,78 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
+interface rules {
+  stage: number,
+  qty: number,
+  words: Array<any>
+}
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-
-  actualPassword = "Senha"
-  gamePhase = ""
-  indexOf = 0
-  teamATotalPoints = ""
-  teamBTotalPoints = ""
-  randomWord = ""
-  player1TeamA = 0
-  player2TeamA = 0
-  round1Passwords = ["", "", "", "", "", "", "", "", "", ""]
-  round2Passwords = ["", "", "", "", "", "", "", "", ""]
-  round3Passwords = ["", "", "", "", "", "", "", ""]
-  round4Passwords = ["", "", "", "", "", "", ""]
-  round5Passwords = ["", "", "", "", "", ""]
-  finalRoundPasswords = ["", "", "", "", ""]
-  startMessage = "Pronto para começar?"
-  skipMove = 3
-
-
-  gameOn = false
-  gameOff = true
-
-  isGameOn() {
-    this.gameOn = !this.gameOn
-    this.gameOff = !this.gameOff
-    this.actualPassword = "Prepare-se!"
-  }
-
-  gameIsOn() {
-    this.gamePhase = "Eliminatórias"
-  }
-
-  getPass() {
-
-    this.round1Passwords = []
-    for (let r1 = 0; r1 < 10; r1++) {
-      this.randomWord = this.passwords[Math.floor(Math.random() * this.passwords.length)]
-      this.round1Passwords.push(this.randomWord)
-      this.actualPassword = this.randomWord
-    }
-    console.log(this.round1Passwords)
-  }
-
-  passIsRight() {
-    if (this.indexOf < this.round1Passwords.length - 1) {
-      this.indexOf++
-    } else {
-      this.indexOf = 0
-    }
-    this.actualPassword = this.round1Passwords[this.indexOf]
-    if (this.player1TeamA <= 10 || this.player1TeamA >= 0) {
-      this.player1TeamA += 1
-    } else if (this.player2TeamA <= 10 || this.player1TeamA >= 0) {
-      this.player2TeamA += 1
-    } else {
-      alert('Próxima rodada')
-    }
-  }
-
-  passIsWrong() {
-    if (this.indexOf < this.round1Passwords.length - 1) {
-      this.indexOf++
-    } else {
-      this.indexOf = 0
-    }
-    this.actualPassword = this.round1Passwords[this.indexOf]
-  }
 
   passwords = ["barraca", "errado", "horrível", "feira", "pera", "zero", "bravo",
     "grande", "prédio", "aviso", "gasolina", "risada", "alvo", "final", "polvo", "alho",
@@ -142,86 +81,110 @@ export class GameComponent implements OnInit {
     "chapéu", "chupeta", "mochila", "dinheiro", "linha", "unha", "atlas", "claro", "global",
     "computador", "nuvem", "tromba", "bloco", "deglutir", "planta", "domingo", "lindo", "volante",
     "biombo", "homem", "patim", "bloqueio", "duplo", "plasma", "coelho"]
+  randomWord = ""
 
-  /*  public password = ""
- 
-    rules = {
-     qualifying: {
-       qtdWords: 10,
-       time: 30,
-       prize: null,
-       words: []
-     },
-     round1: {
-       qtdWords: 10,
-       time: 90,
-       prize: 10000,
-       skip: 3,
-       words: []
-     },
-     round2: {
-       qtdWords: 9,
-       time: 90,
-       prize: 25000,
-       skip: 3,
-       words: []
-     },
-     round3: {
-       qtdWords: 8,
-       time: 90,
-       prize: 25000,
-       skip: 3,
-       words: []
-     },
-     round4: {
-       qtdWords: 7,
-       time: 90,
-       prize: 25000,
-       skip: 3,
-       words: []
-     },
-     round5: {
-       qtdWords: 6,
-       time: 90,
-       prize: 25000,
-       skip: 3,
-       words: []
-     },
-     finalRound: {
-       qtdWords: 5,
-       time: 90,
-       prize: 25000,
-       skip: 3,
-       words: []
-     },
-   }
-    
-  // Remover palavras 
+  gamePhase = ""
+  actualPassword = "Senha"
+  indexOf = 0
 
- getWords(round) {
-    for (let index = 0; index <= this.rules[round].qtdWords; index++) {
-      const index = Math.random();
-      this.rules[round].palavras.push(this.passwords[index]);
-      this.passwords.splice(index, 1)
-    }
+  teamA = {
+    player1: "",
+    player2: "",
+    player1Points: 0,
+    player2Points: 0,
+    player1Chances: 0,
+    player2Chances: 0,
   }
-  
-  showWord(index, round) {
-    this.password = this.rules[round].palavras[index];
-  }
-  
- */
+
+  startMessage = "Pronto para começar?"
+  gameOn = false
+  gameOff = true
+  teamATotalPoints = ""
+  teamBTotalPoints = ""
+  player1TeamA = 0
+  player2TeamA = 0
+  round1Passwords = ["", "", "", "", "", "", "", "", "", ""]
+  round2Passwords = ["", "", "", "", "", "", "", "", ""]
+  round3Passwords = ["", "", "", "", "", "", "", ""]
+  round4Passwords = ["", "", "", "", "", "", ""]
+  round5Passwords = ["", "", "", "", "", ""]
+  finalRoundPasswords = ["", "", "", "", ""]
 
   constructor() {
 
   }
 
+  isGameOn() {
+    this.gameOn = !this.gameOn
+    this.gameOff = !this.gameOff
+    this.actualPassword = "Prepare-se!"
+  }
+
+  gameIsOn() {
+    this.gamePhase = "Eliminatórias"
+  }
+
+  start() {
+
+  }
+
+
+  getPass() {
+    if (this.gameOn === false && this.isGameOn) {
+      alert("Clique em 'Pronto para começar'!")
+    } else {
+      if (this.gamePhase === 'Eliminatórias') {
+        this.round1Passwords = []
+        for (let r1 = 0; r1 < 10; r1++) {
+          this.randomWord = this.passwords[Math.floor(Math.random() * this.passwords.length)]
+          this.round1Passwords.push(this.randomWord)
+          this.actualPassword = this.randomWord
+        }
+      }
+    }
+  }
+
+  passIsRight() {
+    if (this.indexOf < this.round1Passwords.length - 1) {
+      this.indexOf++
+    } else {
+      this.indexOf = 0
+    }
+    this.actualPassword = this.round1Passwords[this.indexOf]
+    if(this.player1TeamA <= 10 || this.player1TeamA >= 0){
+      this.player1TeamA += 1
+    }else if(this.player2TeamA <= 10 || this.player1TeamA >= 0){
+      this.player2TeamA += 1
+    }else{
+      alert('Próxima rodada')
+    }
+  }
+
+  passIsWrong() {
+    if (this.indexOf < this.round1Passwords.length - 1) {
+      this.indexOf++
+    } else {
+      this.indexOf = 0
+    }
+    this.actualPassword = this.round1Passwords[this.indexOf]
+    if(this.player1TeamA <= 10 || this.player1TeamA >= 0){
+      this.player1TeamA -= 1
+    }else if(this.player2TeamA <= 10 || this.player1TeamA >= 0){
+      this.player2TeamA -= 1
+    }else{
+      alert('Fim da rodada')
+    }
+  }
+
+
   skip() {
 
   }
 
+
   ngOnInit(): void {
-    this.isGameOn()
+    this.gameIsOn()
+    console.log()
   }
 
 }
