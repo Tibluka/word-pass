@@ -7,6 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { GameComponent } from './pages/game/game.component';
 import { EndGameComponent } from './pages/end-game/end-game.component';
 import {NgForm, FormsModule} from '@angular/forms';
+import { TimerComponent } from './components/timer/timer.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {NgForm, FormsModule} from '@angular/forms';
     AppComponent,
     HomeComponent,
     GameComponent,
-    EndGameComponent
+    EndGameComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,

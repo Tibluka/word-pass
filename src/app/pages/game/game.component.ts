@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { TimerComponent } from 'src/app/components/timer/timer.component';
 
 interface rules {
   stage: number,
@@ -257,7 +258,7 @@ export class GameComponent implements OnInit {
     },
   ]
 
-  constructor() {
+  constructor(private service: TimerComponent) {
   }
 
   ngOnInit(): void {

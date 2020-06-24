@@ -37,9 +37,7 @@
                 <a>
                     <h1>{{ word }}</h1>
                 </a>
-
-                <button (click)="timeIsUp()">Próxima rodada</button>
-
+                <app-timer></app-timer>
             </div>
 
             <div class="commandLine">
@@ -50,6 +48,7 @@
                 <button *ngIf="this.word !== 'Pronto para começar?'" (click)="skip()"
                     [disabled]="this.block || (this.gameRule?.stage !== 1 && this.gameRule?.skip == 0)">Pulou</button>
                 <button (click)="getPass()" [disabled]="this.getWordBtn">Palavra na Tela</button>
+                <button (click)="timeIsUp()">Próxima rodada</button>
             </div>
         </main>
     </div>
