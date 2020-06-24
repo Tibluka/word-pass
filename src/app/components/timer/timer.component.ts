@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { TimerService } from 'src/app/services/timer.service';
 
 @Component({
   selector: 'app-timer',
@@ -7,30 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimerComponent implements OnInit {
 
-  public qualifyingTimer = 30
-  public gameTimer = 90
-  public timer
-  constructor() { }
+  constructor(public timerService:TimerService) { }
 
   ngOnInit(): void {
   }
-
-  setTimer() {
-    this.timer = setTimeout(() => {
-      console.log('Test');
-      this.setTimer();
-      this.qualifyingTimer--
-    }, 1000);
-  }
-  stopTimer() {
-    clearTimeout(this.timer);
-  }
-
-  stopAndReset() {
-    clearTimeout(this.timer);
-    this.qualifyingTimer = 30
-  }
-
 
 
 }

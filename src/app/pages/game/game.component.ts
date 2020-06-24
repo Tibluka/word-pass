@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { TimerComponent } from 'src/app/components/timer/timer.component';
+import { TimerService } from 'src/app/services/timer.service';
 
 interface rules {
   stage: number,
@@ -8,7 +7,8 @@ interface rules {
   words: Array<any>,
   phase: string,
   skip: number,
-  points: number
+  points: number,
+  timerMax: number
 }
 
 @Component({
@@ -18,110 +18,6 @@ interface rules {
 })
 export class GameComponent implements OnInit {
 
-  /*  
-  
-    teamA = {
-      player1: "",
-      player2: "",
-      player1Points: 0,
-      player2Points: 0,
-      player1Chances: 0,
-      player2Chances: 0,
-    }
-  
-    startMessage = "Pronto para começar?"
-    gameOn = false
-    gameOff = true
-    teamATotalPoints = ""
-    teamBTotalPoints = ""
-    player1TeamA = 0
-    player2TeamA = 0
-    round1Passwords = ["", "", "", "", "", "", "", "", "", ""]
-    round2Passwords = ["", "", "", "", "", "", "", "", ""]
-    round3Passwords = ["", "", "", "", "", "", "", ""]
-    round4Passwords = ["", "", "", "", "", "", ""]
-    round5Passwords = ["", "", "", "", "", ""]
-    finalRoundPasswords = ["", "", "", "", ""]
-  
-    constructor() {
-  
-    }
-  
-    isGameOn() {
-      this.gameOn = !this.gameOn
-      this.gameOff = !this.gameOff
-      this.actualPassword = "Prepare-se!"
-    }
-  
-    gameIsOn() {
-      this.gamePhase = "Eliminatórias"
-    }
-  
-    start() {
-  
-    }
-  
-  
-    getPass() {
-      if (this.gameOn === false && this.isGameOn) {
-        alert("Clique em 'Pronto para começar'!")
-      } else {
-        if (this.gamePhase === 'Eliminatórias') {
-          this.round1Passwords = []
-          for (let r1 = 0; r1 < 10; r1++) {
-            this.randomWord = this.passwords[Math.floor(Math.random() * this.passwords.length)]
-            this.round1Passwords.push(this.randomWord)
-            this.actualPassword = this.randomWord
-          }
-        }
-      }
-    }
-  
-    passIsRight() {
-      if (this.indexOf < this.round1Passwords.length - 1) {
-        this.indexOf++
-      } else {
-        this.indexOf = 0
-      }
-      this.actualPassword = this.round1Passwords[this.indexOf]
-      if(this.player1TeamA <= 10 || this.player1TeamA >= 0){
-        this.player1TeamA += 1
-      }else if(this.player2TeamA <= 10 || this.player1TeamA >= 0){
-        this.player2TeamA += 1
-      }else{
-        alert('Próxima rodada')
-      }
-    }
-  
-    passIsWrong() {
-      if (this.indexOf < this.round1Passwords.length - 1) {
-        this.indexOf++
-      } else {
-        this.indexOf = 0
-      }
-      this.actualPassword = this.round1Passwords[this.indexOf]
-      if(this.player1TeamA <= 10 || this.player1TeamA >= 0){
-        this.player1TeamA -= 1
-      }else if(this.player2TeamA <= 10 || this.player1TeamA >= 0){
-        this.player2TeamA -= 1
-      }else{
-        alert('Fim da rodada')
-      }
-    }
-  
-  
-    skip() {
-  
-    }
-  
-  
-    ngOnInit(): void {
-      this.gameIsOn()
-      console.log()
-    }
-  
-  }
-  */
   private indexWord = 0
   public stage = 1
   public gameRule: rules;
@@ -207,7 +103,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Eliminatória',
       skip: 0,
-      points: 0
+      points: 0,
+      timerMax: 30,
     },
     {
       stage: 2,
@@ -215,7 +112,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 1',
       skip: 5,
-      points: 0
+      points: 0,
+      timerMax: 30,
     },
     {
       stage: 3,
@@ -223,7 +121,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 2',
       skip: 4,
-      points: 0
+      points: 0,
+      timerMax: 90
     },
     {
       stage: 4,
@@ -231,14 +130,16 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 3',
       skip: 3,
-      points: 0
+      points: 0,
+      timerMax: 90
     }, {
       stage: 5,
       qty: 7,
       words: [],
       phase: 'Rodada 4',
       skip: 2,
-      points: 0
+      points: 0,
+      timerMax: 90
     },
     {
       stage: 6,
@@ -246,7 +147,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 5',
       skip: 1,
-      points: 0
+      points: 0,
+      timerMax: 90
     },
     {
       stage: 7,
@@ -254,11 +156,12 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada final',
       skip: 0,
-      points: 0
+      points: 0,
+      timerMax: 90
     },
   ]
 
-  constructor(private service: TimerComponent) {
+  constructor(private timerService:TimerService) {
   }
 
   ngOnInit(): void {
@@ -269,6 +172,8 @@ export class GameComponent implements OnInit {
   getPass() {
     this.indexWord = 0
     this.gameRule = this.rules.find(rule => rule.stage === this.stage)
+    debugger
+    this.timerService.setTimer(this.gameRule.timerMax);
     this.block = false;
     if(this.gameRule.stage == 2){
       this.teamPoints = 0
@@ -289,8 +194,9 @@ export class GameComponent implements OnInit {
 
   skip() {
     //mudar o status da palavra que foi pulada para depois que o array todo for percorrido, apresentar na tela novamente somente as palavras que estiverem com esse status.
-    
+
     this.gameRule.words[this.indexWord].status = ''
+    debugger
     if (this.gameRule.phase !== 'Eliminatória') {
       this.gameRule.skip--
     }
@@ -298,30 +204,24 @@ export class GameComponent implements OnInit {
   }
 
   passIsRight() {
-    
+
     this.gameRule.words[this.indexWord].status = 'done'
     this.gameRule.points++
     if (this.gameRule.points == 5 && this.gameRule.stage !== 1) {
-      this.stage++
-      this.block = true
       this.teamPoints += this.gameRule.points
-      this.gameRule.points = 0
-      this.word = `Fim da fase ${this.gameRule.phase}`
-      this.getWordBtn = !this.getWordBtn
+      this.end()
     }else{
       this.skipWord()
     }
   }
 
   passIsWrong() {
-    
     this.gameRule.words[this.indexWord].status = 'wrong'
     this.gameRule.skip--
     this.skipWord()
   }
 
   private skipWord() {
-    
     this.indexWord++;
     if (this.indexWord >= this.gameRule.qty) {
       this.indexWord = 0;
@@ -331,70 +231,22 @@ export class GameComponent implements OnInit {
       if (index !== -1) {
         this.skipWord()
       } else {
-        this.stage++
-        this.block = true
-        this.word = `Fim da fase ${this.gameRule.phase}`
-        this.getWordBtn = !this.getWordBtn
-        this.teamPoints += this.gameRule.points
-        this.gameRule.points = 0
+        this.end()
       }
     } else {
       this.word = this.gameRule.words[this.indexWord].word
-      console.log(this.gameRule)
     }
   }
 
-  timeIsUp() {
+  end() {
     this.stage++
     this.block = true
     this.word = `Fim da fase ${this.gameRule.phase}`
     this.getWordBtn = !this.getWordBtn
     this.teamPoints += this.gameRule.points
     this.gameRule.points = 0
-    console.log(this.gameRule.skip)
   }
 
 
 }
-
-
-/*   public filho = {
-
-    name: ''
-  }
-  public mae = {
-    name: 'henrique'
-  }
-
-  nasceuFilho() {
-    this.filho = this.mae;
-    console.log('nasceuFilho Nome do Filho', this.filho)
-    console.log('nasceuFilho Nome do mae', this.mae)
-  }
-
-  testeOne() {
-    this.mae.name = 'lucas'
-    console.log('testeOne Nome da Mae', this.mae)
-    console.log('testeOne Nome do filho', this.filho)
-  }
-
-  teste(lucas) {
-    const prop = 'qty'
-    console.log(this.gameRule[lucas])
-    if (lucas === 'qty') {
-      this.gameRule[prop]
-      console.log(this.gameRule.qty)
-    }
-    if (lucas === 'stage') {
-      console.log(this.gameRule.stage)
-    }
-    if (lucas === 'words') {
-      console.log(this.gameRule.words)
-    }
-
-  }
-
-}
-
- */
 
