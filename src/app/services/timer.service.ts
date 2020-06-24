@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({providedIn: 'root'})
-
+@Injectable({
+  providedIn: 'root'
+})
 export class TimerService {
 
   public qualifyingTimer = 30
   public gameTimer = 90
   public timer
-
   constructor() { }
 
   setTimer() {
