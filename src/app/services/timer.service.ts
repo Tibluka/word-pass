@@ -10,13 +10,18 @@ export class TimerService {
   public timer
   constructor() { }
 
-  setTimer() {
-    this.timer = setTimeout(() => {
-      console.log('Test');
-      this.setTimer();
-      this.qualifyingTimer--
+  // Timer = é o tempo q ele tem
+  setTimer(timer) {
+    this.qualifyingTimer = timer
+    this.timer = setInterval(() => {
+      if(this.qualifyingTimer === 0) {
+        this.stopTimer()
+      } else {
+        this.qualifyingTimer--
+      }
     }, 1000);
   }
+
   stopTimer() {
     clearTimeout(this.timer);
   }

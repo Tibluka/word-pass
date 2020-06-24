@@ -7,7 +7,8 @@ interface rules {
   words: Array<any>,
   phase: string,
   skip: number,
-  points: number
+  points: number,
+  countDown: number
 }
 
 @Component({
@@ -206,7 +207,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Eliminatória',
       skip: 0,
-      points: 0
+      points: 0,
+      countDown: 30
     },
     {
       stage: 2,
@@ -214,7 +216,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 1',
       skip: 5,
-      points: 0
+      points: 0,
+      countDown: 90
     },
     {
       stage: 3,
@@ -222,7 +225,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 2',
       skip: 4,
-      points: 0
+      points: 0,
+      countDown: 90
     },
     {
       stage: 4,
@@ -230,14 +234,16 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 3',
       skip: 3,
-      points: 0
+      points: 0,
+      countDown: 90
     }, {
       stage: 5,
       qty: 7,
       words: [],
       phase: 'Rodada 4',
       skip: 2,
-      points: 0
+      points: 0,
+      countDown: 90
     },
     {
       stage: 6,
@@ -245,7 +251,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada 5',
       skip: 1,
-      points: 0
+      points: 0,
+      countDown: 90
     },
     {
       stage: 7,
@@ -253,7 +260,8 @@ export class GameComponent implements OnInit {
       words: [],
       phase: 'Rodada final',
       skip: 0,
-      points: 0
+      points: 0,
+      countDown: 90
     },
   ]
 
@@ -268,6 +276,7 @@ export class GameComponent implements OnInit {
   getPass() {
     this.indexWord = 0
     this.gameRule = this.rules.find(rule => rule.stage === this.stage)
+    this.timerService.setTimer.
     this.block = false;
     if(this.gameRule.stage == 2){
       this.teamPoints = 0
