@@ -276,7 +276,7 @@ export class GameComponent implements OnInit {
   getPass() {
     this.indexWord = 0
     this.gameRule = this.rules.find(rule => rule.stage === this.stage)
-    this.timerService.setTimer.
+    this.timerService.setTimer(this.gameRule.countDown)
     this.block = false;
     if(this.gameRule.stage == 2){
       this.teamPoints = 0
