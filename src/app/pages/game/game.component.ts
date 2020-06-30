@@ -129,6 +129,7 @@ export class GameComponent implements OnInit {
   public word = 'Pronto para começar?'
   public teamPoints = 0
   public getWordBtn = false
+  public timer = this.timerService.qualifyingTimer
 
 
   passwords = ["barraca", "errado", "horrível", "feira", "pera", "zero", "bravo",
@@ -208,7 +209,7 @@ export class GameComponent implements OnInit {
       phase: 'Eliminatória',
       skip: 0,
       points: 0,
-      countDown: 30
+      countDown: 3
     },
     {
       stage: 2,
@@ -269,6 +270,7 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //colocar o if do timer aqui
   }
 
   // FUNCTIONS
@@ -277,8 +279,7 @@ export class GameComponent implements OnInit {
     this.indexWord = 0
     this.gameRule = this.rules.find(rule => rule.stage === this.stage)
     this.timerService.setTimer(this.gameRule.countDown)
-    this.block = false;
-    if(this.gameRule.stage == 2){
+    if (this.gameRule.stage == 2) {
       this.teamPoints = 0
     }
     for (let index = 0; index < this.gameRule.qty; index++) {
@@ -297,7 +298,7 @@ export class GameComponent implements OnInit {
 
   skip() {
     //mudar o status da palavra que foi pulada para depois que o array todo for percorrido, apresentar na tela novamente somente as palavras que estiverem com esse status.
-    
+
     this.gameRule.words[this.indexWord].status = ''
     if (this.gameRule.phase !== 'Eliminatória') {
       this.gameRule.skip--
@@ -306,45 +307,37 @@ export class GameComponent implements OnInit {
   }
 
   passIsRight() {
-    
+
     this.gameRule.words[this.indexWord].status = 'done'
     this.gameRule.points++
-    if (this.gameRule.points == 5 && this.gameRule.stage !== 1) {
-      this.stage++
-      this.block = true
-      this.teamPoints += this.gameRule.points
-      this.gameRule.points = 0
-      this.word = `Fim da fase ${this.gameRule.phase}`
-      this.getWordBtn = !this.getWordBtn
-    }else{
+    if ((this.gameRule.points == 5 && this.gameRule.stage !== 1 ||
+      (this.timerService.gameTimer == 0 || this.timerService.qualifyingTimer == 0))) {
+      this.finishPhase()
+    } else {
       this.skipWord()
     }
   }
 
   passIsWrong() {
-    
+
     this.gameRule.words[this.indexWord].status = 'wrong'
     this.gameRule.skip--
     this.skipWord()
   }
 
   private skipWord() {
-    
+
     this.indexWord++;
     if (this.indexWord >= this.gameRule.qty) {
       this.indexWord = 0;
     }
     if (this.gameRule.words[this.indexWord].status !== '') {
       const index = this.gameRule.words.findIndex(word => word.status === '')
+      console.log(this.gameRule.words)
       if (index !== -1) {
         this.skipWord()
       } else {
-        this.stage++
-        this.block = true
-        this.word = `Fim da fase ${this.gameRule.phase}`
-        this.getWordBtn = !this.getWordBtn
-        this.teamPoints += this.gameRule.points
-        this.gameRule.points = 0
+        this.finishPhase()
       }
     } else {
       this.word = this.gameRule.words[this.indexWord].word
@@ -353,16 +346,24 @@ export class GameComponent implements OnInit {
   }
 
   timeIsUp() {
+    if (this.timerService.qualifyingTimer === 0) {
+      this.finishPhase()
+    }
+  }
+
+  lucas(params){
+    console.log('Acabou', params)
+  }
+
+  finishPhase() {
     this.stage++
     this.block = true
     this.word = `Fim da fase ${this.gameRule.phase}`
     this.getWordBtn = !this.getWordBtn
     this.teamPoints += this.gameRule.points
     this.gameRule.points = 0
-    console.log(this.gameRule.skip)
+    this.timerService.stopTimer()
   }
-
-
 }
 
 
